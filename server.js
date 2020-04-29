@@ -30,7 +30,7 @@ app.get('/api/v1/test', (req, res) => {
 //TSA API ROUTE: GET LIST OF ALL AIRPORTS
 app.get('/api/v1/airports', (req, res) => {
     
-    var unireq = unirest("GET", "https://www.tsawaittimes.com/api/airports/7pA4uDewjNXMAx1qhzhaxGFjVHcmT9qV/JSON");
+    var unireq = unirest("GET", `https://www.tsawaittimes.com/api/airports/${TSA_API_KEY}/JSON`);
 
     unireq.end(function (unires) {
         if (unires.error) throw new Error(unires.error)
