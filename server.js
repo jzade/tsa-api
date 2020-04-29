@@ -30,7 +30,7 @@ app.get('/api/v1/test', (req, res) => {
 //TSA API ROUTE: GET LIST OF ALL AIRPORTS
 app.get('/api/v1/airports', (req, res) => {
     
-    var unireq = unirest("GET", `https://www.tsawaittimes.com/api/airports/${TSA_API_KEY}/JSON`);
+    var unireq = unirest("GET", `${HOSTNAME}s/${TSA_API_KEY}/JSON`);
 
     unireq.end(function (unires) {
         if (unires.error) throw new Error(unires.error)
@@ -64,7 +64,6 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
         })
     })
 })
-
 
 app.listen(PORT, () => 
     console.log(`Express Server started on ${ENV} port ${PORT}, press ctrl-C to terminate.`)
