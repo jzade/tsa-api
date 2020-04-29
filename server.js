@@ -51,7 +51,6 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
     let FORMAT = "JSON"
     let uri = urlBuilder.getURI(HOSTNAME, TSA_API_KEY, APCODE, FORMAT)
 
-    
     var unireq = unirest("GET", uri);
 
     unireq.end(function (unires) {
