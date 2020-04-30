@@ -30,7 +30,6 @@ pipeline {
         }
         stage('Stop existing') {
             steps {
-                echo "AGENT => ${AGENT_LABEL}"
                 sh 'docker stop tsa-api'
                 sh 'docker rm tsa-api'
             }
