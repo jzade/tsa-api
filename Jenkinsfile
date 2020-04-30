@@ -30,8 +30,8 @@ pipeline {
         }
         stage('Stop existing') {
             steps {
-                sh 'docker stop tsa-api'
-                sh 'docker rm tsa-api'
+                sh 'docker stop tsa-api || true'
+                sh 'docker rm tsa-api || true'
             }
         }
         stage('Start container') {
