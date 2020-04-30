@@ -3,7 +3,7 @@ static final String GIT_URL = 'https://github.com/jzade/tsa-api.git'
 def IMAGE_NAME = "tsa-api:1.0.${env.BUILD_NUMBER}"
 
 pipeline {
-    agent { label "dev" }
+    agent { label "t4dev" }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     }
