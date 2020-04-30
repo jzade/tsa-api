@@ -18,6 +18,6 @@
 
  ### TSA-API Setup
  * To test locally:
- ** Setup your environment variables (all described in server.js)
- ** navigate to local repo  and run "node server.js"
- ** Two routes are availabe: api/v1/airport/[Airport Code] and api/v1/airports which returns entire payload of all airports
+ * Setup your environment variables (all described in server.js)
+ * navigate to local repo  and run "node server.js"
+ * Two routes are availabe: api/v1/airport/[Airport Code] and api/v1/airports which returns entire payload of all airports
