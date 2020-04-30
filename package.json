@@ -17,6 +17,8 @@
     "mongoose": "^5.9.10",
     "ngeohash": "^0.6.3",
     "nodemon": "^2.0.3",
+    "pouchdb": "^7.2.1",
+    "txi": "0.0.6-b",
     "unirest": "^0.6.0"
   }
 }

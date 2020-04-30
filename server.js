@@ -13,6 +13,9 @@ const HOSTNAME = "https://www.tsawaittimes.com/api/airport"
 var urlBuilder = require('./library/url-builder.js')
 var geoBuilder = require('./library/geo-builder.js')
 
+let startAirportDB = require('./library/database.js')
+
+startAirportDB.AirportDB('./data/airports-meta.json')
 
 //API Routes - Testing
 app.get('/', (req, res) => {
