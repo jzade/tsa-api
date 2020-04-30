@@ -11,6 +11,7 @@ const HOSTNAME = "https://www.tsawaittimes.com/api/airport"
 
 //config library
 var urlBuilder = require('./library/url-builder.js')
+var geoBuilder = require('./library/geo-builder.js')
 
 
 //API Routes - Testing
@@ -68,11 +69,14 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
 
 //API Route for GIS Lookup 
 //General Process -> take lat and long parameters and calcuate a geohash
+//test data: http://localhost:3000/api/v1/geohash/45.4490556/-98.4218333
+
 app.get('/api/v1/geohash/:lat/:long', (req, res) => {
     let lat = req.params.lat
     let long = req.params.long
 
-    let latLongGeo = geohash.encode(lat, long)
+    let latLongGeo = geoBuilder.getGeohash(lat, long)
+
     console.log(latLongGeo)
 
     res.status(200).json({
