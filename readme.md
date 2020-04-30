@@ -6,7 +6,7 @@
  * David Truxall, [@davetrux](https://github.com/davetrux), Perspecta
  * Jon Stone, PSG
  * Jon Luzader, [@jzade](https://github.com/jzade), PSG
- * Jon Line, PSG
+ * John Line, PSG
 
 ### Additional Support
  * Kila Thomas, Trilogy Federal

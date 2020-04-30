@@ -65,6 +65,16 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
     })
 })
 
+//API Route for GIS Lookup 
+//General Process -> take lat and long parameters and calcuate geohash
+app.get('/api/v1/geohash', (req, res) => {
+
+    res.send(200).json({
+        currentTime: Date.now(),
+        userMessage: "request success.",
+        geoHash: geoHash
+    })
+})
 
 app.listen(PORT, () => 
     console.log(`Express Server started on ${ENV} port ${PORT}, press ctrl-C to terminate.`)
