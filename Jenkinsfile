@@ -36,8 +36,6 @@ pipeline {
         }
         stage('Start container') {
             steps {
-                sh 'API KEY'
-                sh "env"
                 sh "docker run --name tsa-api --restart=always -e TSA_ENV_PORT=3000 -e TSA_DEV_ENV=production -e TSA_API_KEY=${env.TSA_API_KEY} -p 3000:3000 -d ${IMAGE_NAME}"
             }
         }
