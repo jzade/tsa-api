@@ -3,12 +3,12 @@ static final String GIT_URL = 'https://github.com/jzade/tsa-api.git'
 def IMAGE_NAME = "tsa-api:1.0.${env.BUILD_NUMBER}"
 
 pipeline {
-    agent { label "t4dev" }
+    agent { label 't4dev' }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     }
     environment {
-        PATH = "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/centos/.local/bin:/home/centos/bin"
+        PATH = '/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/centos/.local/bin:/home/centos/bin'
     }
     stages {
         stage('npm install') {
