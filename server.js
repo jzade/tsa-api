@@ -15,7 +15,31 @@ var geoBuilder = require('./library/geo-builder.js')
 
 let startAirportDB = require('./library/database.js')
 
-startAirportDB.AirportDB('./data/airports-meta.json')
+async function loadDatabase()
+{
+    let airportDB = await startAirportDB.AirportDB('./data/airports-meta.json')
+
+    var airports = await airportDB.FindAirportByText("Walla")
+    if (airports != null) {
+        console.log(airports);
+    }
+
+    var airport = await airportDB.FindAirportByCode("ICT")
+    if (airport != null) {
+        console.log(airport);
+    }
+
+    var airports = await airportDB.FindAirportByLatLong(36, -119)
+    if (airports != null) {
+        console.log(airports);
+    }
+}
+
+loadDatabase();
+
+
+
+
 
 //API Routes - Testing
 app.get('/', (req, res) => {
@@ -34,13 +58,13 @@ app.get('/api/v1/test', (req, res) => {
 //API Variables: {APIKEY}, {CODE}, {FORMAT} - URI structure: APIKEY/CODE/FORMAT
 //TSA API ROUTE: GET LIST OF ALL AIRPORTS
 app.get('/api/v1/airports', (req, res) => {
-    
+
     var unireq = unirest("GET", `${HOSTNAME}s/${TSA_API_KEY}/JSON`);
 
     unireq.end(function (unires) {
         if (unires.error) throw new Error(unires.error)
         let payload = unires.body
-    
+
         res.status(200).json({
             currentTime: Date.now(),
             userMessage: "request success.",
@@ -61,7 +85,7 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
     unireq.end(function (unires) {
         if (unires.error) throw new Error(unires.error)
         let payload = unires.body
-    
+
         res.status(200).json({
             currentTime: Date.now(),
             userMessage: "request success.",
@@ -85,10 +109,10 @@ app.get('/api/v1/geohash/:lat/:long', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
         userMessage: "request success",
-        geoHash:latLongGeo
+        geoHash: latLongGeo
     })
 })
 
-app.listen(PORT, () => 
+app.listen(PORT, () =>
     console.log(`Express Server started on ${ENV} port ${PORT}, press ctrl-C to terminate.`)
 )

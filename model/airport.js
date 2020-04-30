@@ -1,9 +1,5 @@
 function Airport(){
-    
-    constructor(obj) {
-        obj && Object.assign(this, obj);
-    }
-    
+      
     var code;
     var name
     var city;
