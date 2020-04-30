@@ -37,21 +37,17 @@ async function loadDatabase()
 
 loadDatabase();
 
-
-
-
-
 //API Routes - Testing
 app.get('/', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
-        userMessage: "request success - you are on local host."
+        serverMessage: `request success - you are on ${TSA_DEV_ENV}`
     })
 })
 app.get('/api/v1/test', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
-        userMessage: "request success - you are on api/v1/test"
+        serverMessage: "request success - you are on api/v1/test"
     })
 })
 
@@ -67,13 +63,13 @@ app.get('/api/v1/airports', (req, res) => {
 
         res.status(200).json({
             currentTime: Date.now(),
-            userMessage: "request success.",
-            apiroute: '/airports',
+            serverMessage: "request success",
+            apiRoute: '/airports',
             responsePayload: payload
         })
     })
 })
-//TSA API ROUTE GET LIST OF SPECIFIC AIRPORT
+//TSA API ROUTE GET LIST OF SPECIFIC AIRPORT AND WAIT TIMES
 app.get('/api/v1/airport/:APcode', (req, res) => {
 
     let APCODE = req.params.APcode
@@ -88,7 +84,7 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
 
         res.status(200).json({
             currentTime: Date.now(),
-            userMessage: "request success.",
+            serverMessage: "request success",
             responsePayload: payload
         })
     })
@@ -108,7 +104,7 @@ app.get('/api/v1/geohash/:lat/:long', (req, res) => {
 
     res.status(200).json({
         currentTime: Date.now(),
-        userMessage: "request success",
+        serverMessage: "request success",
         geoHash: latLongGeo
     })
 })
