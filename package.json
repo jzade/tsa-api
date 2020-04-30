@@ -23,5 +23,8 @@
     "pouchdb-find": "^7.2.1",
     "txi": "0.0.6-b",
     "unirest": "^0.6.0"
+  },
+  "nodemonConfig": {
+    "ignore": ["./airport_database"]
   }
 }
