@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const unirest = require('unirest')
+const geohash = require('ngeohash')
 
 //config local variables
 const PORT = process.env.TSA_ENV_PORT
@@ -51,7 +52,7 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
     let FORMAT = "JSON"
     let uri = urlBuilder.getURI(HOSTNAME, TSA_API_KEY, APCODE, FORMAT)
 
-    var unireq = unirest("GET", uri);
+    var unireq = unirest("GET", uri)
 
     unireq.end(function (unires) {
         if (unires.error) throw new Error(unires.error)
@@ -66,13 +67,18 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
 })
 
 //API Route for GIS Lookup 
-//General Process -> take lat and long parameters and calcuate geohash
-app.get('/api/v1/geohash', (req, res) => {
+//General Process -> take lat and long parameters and calcuate a geohash
+app.get('/api/v1/geohash/:lat/:long', (req, res) => {
+    let lat = req.params.lat
+    let long = req.params.long
 
-    res.send(200).json({
+    let latLongGeo = geohash.encode(lat, long)
+    console.log(latLongGeo)
+
+    res.status(200).json({
         currentTime: Date.now(),
-        userMessage: "request success.",
-        geoHash: geoHash
+        userMessage: "request success",
+        geoHash:latLongGeo
     })
 })
 
