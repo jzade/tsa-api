@@ -65,7 +65,6 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
     })
 })
 
-app.get('api/v1/airport/fuzzy')
 
 app.listen(PORT, () => 
     console.log(`Express Server started on ${ENV} port ${PORT}, press ctrl-C to terminate.`)
