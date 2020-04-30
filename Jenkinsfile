@@ -25,7 +25,7 @@ pipeline {
         stage('Create Image') {
             steps {
                 unstash "node-modules"
-                sh 'docker build -t "IMAGE_NAME" .'
+                sh "docker build -t ${IMAGE_NAME} ."
             }
         }
         stage('Stop existing') {
