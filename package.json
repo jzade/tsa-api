@@ -1,6 +1,6 @@
 {
   "name": "tsa-api",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -23,5 +23,10 @@
     "pouchdb-find": "^7.2.1",
     "txi": "0.0.6-b",
     "unirest": "^0.6.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "./airport_database"
+    ]
   }
 }

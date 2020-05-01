@@ -10,10 +10,14 @@ const TSA_API_KEY = process.env.TSA_API_KEY
 const ENV = process.env.TSA_DEV_ENV
 const HOSTNAME = "https://www.tsawaittimes.com/api/airport"
 
+//package.json
+let package = require('./package.json')
+
 //config library
 var urlBuilder = require('./library/url-builder.js')
 var geoBuilder = require('./library/geo-builder.js')
 
+//db setup 
 let startAirportDB = require('./library/database.js')
 
 async function loadDatabase()
@@ -44,7 +48,8 @@ app.use(express.static(path.join(__dirname,'_site')))
 app.get('/', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
-        serverMessage: `request success - you are on ${TSA_DEV_ENV}`
+        serverMessage: `request success - you are on ${ENV}`,
+        apiVersion: package.version
     })
 })
 */
@@ -52,7 +57,8 @@ app.get('/', (req, res) => {
 app.get('/api/v1/test', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
-        serverMessage: "request success - you are on api/v1/test"
+        serverMessage: "request success - you are on api/v1/test",
+        apiVersion: package.version
     })
 })
 
@@ -70,6 +76,7 @@ app.get('/api/v1/airports', (req, res) => {
             currentTime: Date.now(),
             serverMessage: "request success",
             apiRoute: '/airports',
+            apiVersion: package.version,
             responsePayload: payload
         })
     })
@@ -90,6 +97,7 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
         res.status(200).json({
             currentTime: Date.now(),
             serverMessage: "request success",
+            apiVersion: package.version,
             responsePayload: payload
         })
     })
@@ -110,6 +118,7 @@ app.get('/api/v1/geohash/:lat/:long', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
         serverMessage: "request success",
+        apiVersion: package.version,
         geoHash: latLongGeo
     })
 })
