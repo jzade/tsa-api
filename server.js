@@ -38,7 +38,7 @@ async function loadDatabase() {//db setup
     }
 }
 
-//loadDatabase();
+loadDatabase();
 
 app.use(express.static(path.join(__dirname, '_site')))
 //API Routes - Testing
