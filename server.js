@@ -53,6 +53,11 @@ app.get('/', (req, res) => {
 })
 */
 
+//INDEX HTML home page
+app.get('/', (req, res) => {
+    res.sendfile('./_site/index.html')
+})
+
 app.get('/api/v1/test', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
