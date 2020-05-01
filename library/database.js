@@ -1,23 +1,48 @@
 // import Airport from '..model/airport.js'
 // import { publicDecrypt } from 'crypto';
 
-exports.AirportDB = async (sourcefilepath) => {
+exports.AirportDB = (sourcefilepath) => {
 
     //INNER VARIABLES
     var that = this;
-    that.sourcefilepath = sourcefilepath;
-    that.db = null;
-    that.textIndex = null;
+    //that.sourcefilepath = sourcefilepath
+
+    var LocalStorage = require('node-localstorage').LocalStorage;
+    that.localStorage = new LocalStorage('./data/local-storage');
+
+    //INIT THE FULL TEXT
+    const txi = require('txi')
+    that.textIndex = new txi({
+        storage: {
+            get: (key) => {
+                const data = that.localStorage.getItem(key);
+                if (data) return JSON.parse(data);
+            },
+            set: (key, value) => {
+                that.localStorage.setItem(key, JSON.stringify(value));
+            },
+            keys: () => {
+                var keys = []
+                for (const i = 0; i < that.localStorage.length; i++) {
+                    keys.push(that.localStorage.key(i));
+                }
+                return keys
+            },
+            count: () => {
+                return that.localStorage.length;
+            }
+        }
+    })
+
+    ///INIT THE POUCH DATABASE - jank code :P
+    var PouchDB = require('pouchdb')
+    PouchDB.plugin(require('pouchdb-find'));
+    that.db = new PouchDB('airport_database')
 
     //INITIALIZATION FUNCTION
-    that.init = async function () {
+    that.init = async function (sourcefilepath) {
 
         var geoBuilder = require('./geo-builder.js')
-
-        ///INIT THE POUCH DATABASE - jank code :P
-        var PouchDB = require('pouchdb')
-        PouchDB.plugin(require('pouchdb-find'));
-        that.db = new PouchDB('airport_database')
 
         try {
             await that.db.destroy();
@@ -27,16 +52,11 @@ exports.AirportDB = async (sourcefilepath) => {
 
         that.db = new PouchDB('airport_database')
 
-        //INIT THE FULL TEXT
-        const txi = require('txi')
-
-        that.textIndex = txi()
-
         var fs = require('fs')
         var path = require('path')
 
         // Load Airport Data
-        var BUFFER = bufferFile(that.sourcefilepath)
+        var BUFFER = bufferFile(sourcefilepath)
 
         function bufferFile(relPath) {
             return fs.readFileSync((relPath));
@@ -48,9 +68,18 @@ exports.AirportDB = async (sourcefilepath) => {
         //IF IS NOT NULL AND IS ARRAY --TODO
         if (AirDataArray != null) {
             var codes = [];
+
+            console.log("loading airports")
             for (x = 0; x < AirDataArray.length; x++) {
                 await loadAirport(AirDataArray[x], x)
+
+                if (x % 5 == 0 && x % 50 != 0)
+                console.log('\x1b[33m%s\x1b[0m', '.')
+                if (x % 50 == 0)
+                console.log('\x1b[33m%s\x1b[0m',x)
             }
+            console.log("loaded airports")
+
 
         }
 
@@ -120,7 +149,7 @@ exports.AirportDB = async (sourcefilepath) => {
         try {
             airports = await that.db.query(function (doc, emit) {
                 emit(doc.code);
-            }, { keys: codes });
+            }, { keys: codes, include_docs:true });
         } catch (err) {
             console.log(err);
         }
@@ -135,20 +164,20 @@ exports.AirportDB = async (sourcefilepath) => {
     }
 
 
-    console.log("INITIALIZE");
+    //console.log("INITIALIZE");
     //STARTUP
-    await that.init(sourcefilepath);
-
-    console.log("READY");
-    console.log(await that.db.info());
+    //await that.init(sourcefilepath);
+    //console.log("READY");
+    //console.log(await that.db.info());
 
 
 
     //RETURN THE PUBLIC INTERFACE
     return {
-        FindAirportByLatLong: that.findAirportByLatLong,
-        FindAirportByText: that.findAirportByText,
-        FindAirportByCode: that.findAirportByCode
+        InitializeDB: async (sourcefilepath) => { await that.init(sourcefilepath) },
+        FindAirportByLatLong: async (Lat, Long) => { return that.findAirportByLatLong(Lat, Long) },
+        FindAirportByText: async (text) => { return that.findAirportByText(text) },
+        FindAirportByCode: async (code) => { return that.findAirportByCode(code) }
     };
 
 

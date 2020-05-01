@@ -17,12 +17,11 @@ let package = require('./package.json')
 var urlBuilder = require('./library/url-builder.js')
 var geoBuilder = require('./library/geo-builder.js')
 
-//db setup 
-let startAirportDB = require('./library/database.js')
-
 async function loadDatabase()
-{
-    let airportDB = await startAirportDB.AirportDB('./data/airports-meta.json')
+{//db setup 
+let startAirportDB = require('./library/database.js')
+    let airportDB = startAirportDB.AirportDB()
+    await airportDB.InitializeDB('./data/airports-meta.json')
 
     var airports = await airportDB.FindAirportByText("Walla")
     if (airports != null) {
@@ -100,6 +99,31 @@ app.get('/api/v1/airport/:APcode', (req, res) => {
             apiVersion: package.version,
             responsePayload: payload
         })
+    })
+})
+
+//TSA API ROUTE GET LIST OF SPECIFIC AIRPORT AND WAIT TIMES
+app.get('/api/v1/airport_fuzzy/:SearchText', (req, res) => {
+    
+    //db setup 
+    let startAirportDB = require('./library/database.js')
+
+    let SearchText = req.params.SearchText
+    let FORMAT = "JSON"
+    
+    let airportDB = startAirportDB.AirportDB()    
+    var airports = airportDB.FindAirportByText(SearchText)
+   
+
+    airports
+    .then(function (found) {
+             res.status(200).json({
+            currentTime: Date.now(),
+            serverMessage: "request success",
+            apiVersion: package.version,
+            responsePayload: found
+        })
+        .catch((err)=>{console.log(err);})
     })
 })
 
