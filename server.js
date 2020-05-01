@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const unirest = require('unirest')
 const geohash = require('ngeohash')
+const path = require('path')
 
 //config local variables
 const PORT = process.env.TSA_ENV_PORT
@@ -37,13 +38,17 @@ async function loadDatabase()
 
 loadDatabase();
 
+app.use(express.static(path.join(__dirname,'_site')))
 //API Routes - Testing
+/*
 app.get('/', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),
         serverMessage: `request success - you are on ${TSA_DEV_ENV}`
     })
 })
+*/
+
 app.get('/api/v1/test', (req, res) => {
     res.status(200).json({
         currentTime: Date.now(),

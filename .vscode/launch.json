@@ -12,7 +12,12 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\server.js"
+            "program": "${workspaceFolder}\\server.js",
+            "env": {
+                "TSA_DEV_ENV":"dev",
+                "TSA_ENV_PORT":"3000",
+                "TSA_API_KEY":"7pA4uDewjNXMAx1qhzhaxGFjVHcmT9qV"
+            }
         }
     ]
 }
