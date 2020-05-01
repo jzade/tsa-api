@@ -7,6 +7,12 @@ exports.AirportDB = (sourcefilepath) => {
     var that = this;
     //that.sourcefilepath = sourcefilepath
 
+        ///INIT THE POUCH DATABASE - jank code :P
+        var PouchDB = require('pouchdb')
+        PouchDB.plugin(require('pouchdb-find'));
+        that.db = new PouchDB('airport_database')
+        
+
     var LocalStorage = require('node-localstorage').LocalStorage;
     that.localStorage = new LocalStorage('./data/local-storage');
 
@@ -34,10 +40,7 @@ exports.AirportDB = (sourcefilepath) => {
         }
     })
 
-    ///INIT THE POUCH DATABASE - jank code :P
-    var PouchDB = require('pouchdb')
-    PouchDB.plugin(require('pouchdb-find'));
-    that.db = new PouchDB('airport_database')
+
 
     //INITIALIZATION FUNCTION
     that.init = async function (sourcefilepath) {
